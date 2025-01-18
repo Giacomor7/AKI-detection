@@ -5,8 +5,10 @@ import csv
 
 import pandas as pd
 
+from evaluation import calculate_f3_score
 from preprocessing import extract_features
 from training import training
+from sklearn.preprocessing import LabelEncoder
 
 
 def main():
@@ -22,6 +24,11 @@ def main():
     w.writerow(("aki",))
     for prediction in predictions:
         w.writerow("y" if prediction else "n")
+
+    if 'aki' in test_data.columns:
+        le = LabelEncoder()
+        print(calculate_f3_score(predictions, le.fit_transform(
+            test_data['aki'].to_numpy())))
 
 
 if __name__ == "__main__":
