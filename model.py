@@ -4,11 +4,15 @@ import argparse
 import csv
 import random
 
+from training import training
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--input", default="test.csv")
     parser.add_argument("--output", default="aki.csv")
     flags = parser.parse_args()
+    model = training()
     r = csv.reader(open(flags.input))
     w = csv.writer(open(flags.output, "w"))
     w.writerow(("aki",))
