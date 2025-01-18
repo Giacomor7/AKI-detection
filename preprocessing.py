@@ -28,7 +28,7 @@ def extract_features(data):
         previous_result
         time_since_previous_result
         past_48h_lowest_value
-        past_48h_variance
+        past_48h_highest_value
         past_week_lowest_value
         past_year_median
 
@@ -38,7 +38,7 @@ def extract_features(data):
 
     features = pd.DataFrame(
         columns=['age', 'sex', 'latest_result', 'previous_result', 'time_since_previous_result',
-                 'past_48h_lowest_value', 'past_48h_variance', 'past_week_lowest_value', 'past_year_median'])
+                 'past_48h_lowest_value', 'past_48h_highest_value', 'past_week_lowest_value', 'past_year_median'])
 
     features['age'] = data['age']
 
@@ -63,8 +63,8 @@ def extract_features(data):
         lambda x: min(
             [y[1] for y in x if x[-1][0] - y[0] < timedelta(hours=48)]))
 
-    features['past_48h_variance'] = pd.Series(creatinine_results).apply(
-        lambda x: np.var(
+    features['past_48h_highest_value'] = pd.Series(creatinine_results).apply(
+        lambda x: max(
             [y[1] for y in x if x[-1][0] - y[0] < timedelta(hours=48)]))
 
     features['past_week_lowest_value'] = pd.Series(creatinine_results).apply(
