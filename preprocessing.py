@@ -1,6 +1,7 @@
 from datetime import datetime, timedelta
 import numpy as np
 import pandas as pd
+from sklearn.preprocessing import LabelEncoder
 
 
 def get_creatinine_results(data):
@@ -40,7 +41,9 @@ def extract_features(data):
                  'past_48h_lowest_value', 'past_48h_variance', 'past_week_lowest_value', 'past_year_median'])
 
     features['age'] = data['age']
-    features['sex'] = data['sex']
+
+    le = LabelEncoder()
+    features['sex'] = le.fit_transform(data['sex'])
 
     # [(time1, result1), (time2, result2), ...]:
     creatinine_results = get_creatinine_results(data)
